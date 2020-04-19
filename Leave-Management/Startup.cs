@@ -46,9 +46,9 @@ namespace Leave_Management
             services.AddAutoMapper(typeof(Maps));
             //eddig
             //itt is nézhetem, hogy locked kell-e meg ilyenek, confirmed account kell-e
-            //services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            //services.AddDefaultIdentity<Employee>(options => options.SignIn.RequireConfirmedAccount = true)
             //.AddEntityFrameworkStores<ApplicationDbContext>();
-            services.AddDefaultIdentity<IdentityUser>()
+            services.AddDefaultIdentity<Employee>()
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
@@ -60,7 +60,7 @@ namespace Leave_Management
         public void Configure(
             IApplicationBuilder app,
             IWebHostEnvironment env,
-            UserManager<IdentityUser> userManager,
+            UserManager<Employee> userManager,
             RoleManager<IdentityRole> roleManager)
         {
             if (env.IsDevelopment())
