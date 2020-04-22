@@ -6,11 +6,14 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Leave_Management.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Leave_Management.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
+        
         private readonly ILogger<HomeController> _logger;
 
         public HomeController(ILogger<HomeController> logger)
