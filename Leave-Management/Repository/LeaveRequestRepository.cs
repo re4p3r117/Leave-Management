@@ -17,45 +17,45 @@ namespace Leave_Management.Repository
             _db = db;
         }
 
-        public bool Create(LeaveRequest entity)
+        public async Task<bool> Create(LeaveRequest entity)
         {
-            _db.LeaveRequests.Add(entity);
+            await _db.LeaveRequests.AddAsync(entity);
             //save
-            return Save();
+            return await Save();
             //throw new NotImplementedException();
         }
 
-        public bool Delete(LeaveRequest entity)
+        public async Task<bool> Delete(LeaveRequest entity)
         {
             _db.LeaveRequests.Remove(entity);
             //save
-            return Save();
+            return await Save();
             //throw new NotImplementedException();
         }
 
-        public ICollection<LeaveRequest> FindAll()
+        public async Task<ICollection<LeaveRequest>> FindAll()
         {
-            var leaveHistories = _db.LeaveRequests
+            var leaveHistories = await _db.LeaveRequests
                 .Include(q => q.RequestingEmployee)
                 .Include(q => q.ApprovedBy)
                 .Include(q => q.LeaveType)
-                .ToList();
+                .ToListAsync();
             return leaveHistories;
             //throw new NotImplementedException();
         }
 
-        public LeaveRequest FindById(int id)
+        public async Task<LeaveRequest> FindById(int id)
         {
-            var leaveHistory = _db.LeaveRequests
+            var leaveHistory = await _db.LeaveRequests
                 .Include(q => q.RequestingEmployee)
                 .Include(q => q.ApprovedBy)
                 .Include(q => q.LeaveType)
-                .FirstOrDefault(q => q.Id == id);
+                .FirstOrDefaultAsync(q => q.Id == id);
             return leaveHistory;
             // throw new NotImplementedException();
         }
 
-        public ICollection<LeaveRequest> GetLeaveRequestsByEmployee(string employeeid)
+        public async Task<ICollection<LeaveRequest>> GetLeaveRequestsByEmployee(string employeeid)
         {
             //var leaveRequests = _db.LeaveRequests
             //    .Include(q => q.RequestingEmployee)
@@ -63,30 +63,30 @@ namespace Leave_Management.Repository
             //    .Include(q => q.LeaveType)
             //    .Where(q => q.RequestingEmployeeId == employeeid)
             //    .ToList();
-            var leaveRequests = FindAll()
-                .Where(q => q.RequestingEmployeeId == employeeid)
+            var leaveRequests = await FindAll();
+                
+            return leaveRequests.Where(q => q.RequestingEmployeeId == employeeid)
                 .ToList();
-            return leaveRequests;
         }
 
-        public bool isExists(int id)
+        public async Task<bool> isExists(int id)
         {
-            var exists = _db.LeaveRequests.Any(q => q.Id == id);
+            var exists = await _db.LeaveRequests.AnyAsync(q => q.Id == id);
             return exists;
         }
 
-        public bool Save()
+        public async Task<bool> Save()
         {
-            var changes = _db.SaveChanges();
+            var changes = await _db.SaveChangesAsync();
             return changes > 0;
             //throw new NotImplementedException();
         }
 
-        public bool Update(LeaveRequest entity)
+        public async Task<bool> Update(LeaveRequest entity)
         {
             _db.LeaveRequests.Update(entity);
             //save
-            return Save();
+            return await Save();
             //throw new NotImplementedException();
         }
     }
